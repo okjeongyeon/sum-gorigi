@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>숨 고르기 기록장</title>
+<style>
+  :root{
+    --yellow:#FFC81E;--yellow-soft:#FFF4CC;--mint:#00B8B8;
+    --ink:#222;--ink-2:#555;--ink-3:#8A8A8A;--line:#E6E6E6;--cream:#F7F4EE;--bg:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:#F2F2F2;color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.55;word-break:keep-all}
+  .app{max-width:480px;min-height:100vh;margin:0 auto;background:var(--bg);padding-bottom:40px}
+  button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
+  a{color:inherit;text-decoration:none}
+  .btn{display:block;width:100%;padding:15px;border-radius:999px;font-size:16px;font-weight:800;text-align:center}
+  .btn.main{background:var(--yellow)}
+  .btn.line{border:1.5px solid var(--ink);background:#fff}
+  .btn.mint{background:var(--mint);color:#fff;border-radius:8px}
+  .btn.small{display:inline-block;width:auto;padding:8px 14px;font-size:14px}
+
+  .head{background:var(--cream);padding:36px 22px 28px;text-align:center}
+  .badge{display:inline-block;background:var(--yellow);font-size:13px;font-weight:800;padding:4px 12px;border-radius:999px}
+  .head h1{font-size:26px;line-height:1.4;font-weight:400;margin-top:14px}
+  .head h1 strong{font-weight:800}
+  .head p{margin-top:10px;font-size:14px;color:var(--ink-2)}
+  .local{margin-top:14px;font-size:13px;color:var(--ink-3)}
+
+  .tabs{display:flex;position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:5}
+  .tabs button{flex:1;padding:14px 0;font-size:15px;color:var(--ink-3)}
+  .tabs button[aria-selected="true"]{color:var(--ink);font-weight:800;box-shadow:inset 0 -3px 0 var(--yellow)}
+  .pane{display:none;padding:26px 22px 0}
+  .pane.on{display:block}
+
+  .field{margin-top:26px}
+  .field:first-child{margin-top:0}
+  .field label,.field .lb{display:block;font-size:16px;font-weight:800}
+  .field .lb small,.field label small{font-weight:400;font-size:13px;color:var(--ink-3);margin-left:4px}
+  .field .sub{font-size:13px;color:var(--ink-3);margin-top:2px}
+  input[type=date],input[type=text],textarea{width:100%;margin-top:10px;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:#fff}
+  textarea{min-height:84px;resize:vertical}
+  input:focus,textarea:focus{outline:none;border-color:var(--yellow)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{padding:9px 14px;border:1.5px solid var(--line);border-radius:999px;font-size:15px;background:#fff}
+  .chip[aria-pressed="true"]{border-color:var(--yellow);background:var(--yellow-soft);font-weight:700}
+  .stepline{display:flex;align-items:center;gap:8px;margin-top:30px;font-size:13px;font-weight:800;color:#8A6A00}
+  .stepline b{width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px}
+  .stepline::after{content:"";flex:1;height:1px;background:var(--line)}
+  .save{margin-top:30px}
+  .msg{margin-top:10px;text-align:center;font-size:14px;color:var(--mint);font-weight:700;min-height:20px}
+
+  .empty{text-align:center;color:var(--ink-3);font-size:15px;padding:40px 0}
+  .rec{border:1.5px solid var(--line);border-radius:16px;padding:16px;margin-top:12px}
+  .rec .d{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-3)}
+  .rec .d button{font-size:13px;color:var(--ink-3);text-decoration:underline}
+  .rec .tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+  .rec .tags span{font-size:12px;background:var(--yellow-soft);padding:2px 8px;border-radius:999px}
+  .rec dl{margin-top:10px;font-size:14px}
+  .rec dt{color:var(--ink-3);font-size:12px;margin-top:8px}
+  .rec dd{color:var(--ink)}
+
+  .range{display:flex;gap:8px;margin-top:4px}
+  .range button{flex:1;padding:10px;border:1.5px solid var(--line);border-radius:999px;font-size:14px}
+  .range button[aria-pressed="true"]{border-color:var(--yellow);background:var(--yellow-soft);font-weight:700}
+  .count{margin-top:14px;font-size:14px;color:var(--ink-2);text-align:center}
+  .prompt{margin-top:14px;background:#1E1E1E;color:#F2F2F2;border-radius:16px;padding:18px;font-size:14px;line-height:1.75;white-space:pre-wrap;max-height:360px;overflow:auto}
+  .ai-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .ai-btns .full{grid-column:span 2}
+  .private{margin-top:6px;text-align:center;font-size:13px;color:var(--ink-3)}
+  .h3{font-size:19px;font-weight:800;margin-top:36px}
+  .h3:first-child{margin-top:0}
+  .p{font-size:14px;color:var(--ink-2);margin-top:6px}
+  .danger{margin:40px auto 0;display:block;font-size:13px;color:var(--ink-3);text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="head">
+    <span class="badge">3개월 챌린지 참가자 전용</span>
+    <h1>이번 주<br><strong>숨 고르기 기록장</strong></h1>
+    <p>부딪친 날을 적고, 일주일에 한 번 돌아봐요</p>
+    <p class="local">기록은 이 휴대폰 안에만 저장돼요. 저에게 자동으로 오지 않아요</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-pane="p-write">기록하기</button>
+    <button role="tab" aria-selected="false" data-pane="p-list">내 기록</button>
+    <button role="tab" aria-selected="false" data-pane="p-week">주간 돌아보기</button>
+  </nav>
+
+  <!-- 기록하기 -->
+  <section class="pane on" id="p-write">
+    <div class="field">
+      <label for="date">날짜</label>
+      <input type="date" id="date">
+    </div>
+
+    <div class="field">
+      <span class="lb">무슨 일로 부딪쳤나요? <small>여러 개 골라도 돼요</small></span>
+      <div class="chips" id="clash"></div>
+      <input type="text" id="clashEtc" placeholder="다른 일이면 적어 주세요">
+    </div>
+
+    <div class="field">
+      <label for="said">그때 아이에게 한 말 <small>선택</small></label>
+      <textarea id="said" placeholder="떠오르는 대로 적어 보세요"></textarea>
+    </div>
+
+    <div class="stepline"><b>1</b>한 번 멈추기</div>
+    <div class="field" style="margin-top:14px">
+      <span class="lb">화가 난 순간, 한 번 멈췄나요?</span>
+      <div class="chips" id="paused"></div>
+    </div>
+
+    <div class="stepline"><b>2</b>해야 할 말 하기</div>
+    <div class="field" style="margin-top:14px">
+      <label for="instead">대신 한 말, 또는 대신 하고 싶은 말</label>
+      <p class="sub">아이의 생각을 묻는 말로 바꿔 봐도 좋아요</p>
+      <textarea id="instead"></textarea>
+    </div>
+
+    <div class="stepline"><b>3</b>다시 가까워지기</div>
+    <div class="field" style="margin-top:14px">
+      <label for="closer">그 뒤에 아이와 함께한 것 <small>선택</small></label>
+      <textarea id="closer"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="feel">오늘 내 마음 한 줄 <small>선택</small></label>
+      <input type="text" id="feel">
+    </div>
+
+    <button class="btn main save" id="saveBtn">기록 저장하기</button>
+    <p class="msg" id="saveMsg" role="status"></p>
+  </section>
+
+  <!-- 내 기록 -->
+  <section class="pane" id="p-list">
+    <div id="list"></div>
+  </section>
+
+  <!-- 주간 돌아보기 -->
+  <section class="pane" id="p-week">
+    <p class="h3">내 AI에 이번 주 물어보기</p>
+    <p class="p">고른 기간의 기록으로 질문 글을 만들어요</p>
+    <div class="range" id="range">
+      <button data-days="7" aria-pressed="true">최근 7일</button>
+      <button data-days="14" aria-pressed="false">최근 14일</button>
+      <button data-days="0" aria-pressed="false">전체</button>
+    </div>
+    <p class="count" id="wCount"></p>
+    <div class="prompt" id="wPrompt"></div>
+    <div class="ai-btns">
+      <button class="btn main full" id="wCopy">복사하기</button>
+      <a class="btn line" id="wGpt" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열기</a>
+      <a class="btn line" id="wClaude" href="https://claude.ai/new" target="_blank" rel="noopener">Claude 열기</a>
+    </div>
+    <p class="msg" id="wMsg" role="status"></p>
+    <p class="private">내 AI 계정에 붙여 넣는 거라 기록은 저에게 오지 않아요</p>
+
+    <p class="h3">1:1 점검 때 보여 주기</p>
+    <p class="p">점검 전에 기록을 글로 복사해서 보내 주실 수 있어요. 보낼지는 직접 정해요</p>
+    <button class="btn line" id="allCopy" style="margin-top:14px">전체 기록 글로 복사하기</button>
+    <p class="msg" id="allMsg" role="status"></p>
+
+    <button class="danger" id="wipe">이 휴대폰의 기록 모두 지우기</button>
+  </section>
+</div>
+
+<script>
+(function(){
+  var KEY = 'sum-gorigi-records-v1';
+  var CLASH = ['핸드폰','숙제','친구 일','학교 가기 싫어함'];
+  var PAUSE = ['한 번 멈췄어요','조금 늦게 멈췄어요','멈추지 못했어요'];
+  var $ = function(id){ return document.getElementById(id); };
+  var mem = [];
+
+  function load(){
+    try { var r = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(r) ? r : []; }
+    catch(e){ return mem; }
+  }
+  function store(list){
+    mem = list;
+    try { localStorage.setItem(KEY, JSON.stringify(list)); return true; } catch(e){ return false; }
+  }
+  function today(){ var d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+
+  function chips(el, opts, multi){
+    var state = multi ? [] : '';
+    el.innerHTML = '';
+    opts.forEach(function(o){
+      var b = document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=o; b.setAttribute('aria-pressed','false');
+      b.onclick = function(){
+        if (multi){
+          var i = state.indexOf(o); if (i>-1) state.splice(i,1); else state.push(o);
+          b.setAttribute('aria-pressed', i>-1 ? 'false':'true');
+        } else {
+          state = state===o ? '' : o;
+          [].forEach.call(el.children, function(c){ c.setAttribute('aria-pressed', c.textContent===state ? 'true':'false'); });
+        }
+      };
+      el.appendChild(b);
+    });
+    return { get:function(){ return multi ? state.slice() : state; },
+             reset:function(){ state = multi ? [] : ''; [].forEach.call(el.children,function(c){ c.setAttribute('aria-pressed','false'); }); } };
+  }
+  var clashC = chips($('clash'), CLASH, true);
+  var pauseC = chips($('paused'), PAUSE, false);
+  $('date').value = today();
+
+  $('saveBtn').onclick = function(){
+    var clash = clashC.get(); var etc = $('clashEtc').value.trim(); if (etc) clash.push(etc);
+    var rec = { id: Date.now(), date: $('date').value || today(), clash: clash, said: $('said').value.trim(),
+      paused: pauseC.get(), instead: $('instead').value.trim(), closer: $('closer').value.trim(), feel: $('feel').value.trim() };
+    if (!rec.clash.length && !rec.said && !rec.instead){ $('saveMsg').textContent = '부딪친 일이나 한 말 중 하나는 적어 주세요'; return; }
+    var list = load(); list.push(rec);
+    var ok = store(list);
+    $('saveMsg').textContent = ok ? '저장했어요. 내 기록 탭에서 볼 수 있어요' : '이 브라우저는 저장이 안 돼요. 창을 닫으면 사라져요';
+    clashC.reset(); pauseC.reset();
+    ['clashEtc','said','instead','closer','feel'].forEach(function(id){ $(id).value=''; });
+    $('date').value = today();
+    renderList(); renderWeek();
+  };
+
+  function sorted(){ return load().slice().sort(function(a,b){ return a.date<b.date?1:a.date>b.date?-1:b.id-a.id; }); }
+
+  function renderList(){
+    var box = $('list'); box.innerHTML = '';
+    var list = sorted();
+    if (!list.length){ box.innerHTML = '<p class="empty">아직 기록이 없어요.<br>부딪친 날, 기록하기 탭에서 적어 보세요</p>'; return; }
+    list.forEach(function(r){
+      var c = document.createElement('div'); c.className='rec';
+      var d = document.createElement('div'); d.className='d';
+      var ds = document.createElement('span'); ds.textContent = r.date; d.appendChild(ds);
+      var del = document.createElement('button'); del.textContent='지우기';
+      del.onclick = function(){ if (confirm('이 기록을 지울까요?')){ store(load().filter(function(x){ return x.id!==r.id; })); renderList(); renderWeek(); } };
+      d.appendChild(del); c.appendChild(d);
+      var tags = document.createElement('div'); tags.className='tags';
+      (r.clash||[]).concat(r.paused ? [r.paused] : []).forEach(function(t){ var s=document.createElement('span'); s.textContent=t; tags.appendChild(s); });
+      c.appendChild(tags);
+      var dl = document.createElement('dl');
+      [['그때 한 말',r.said],['대신 한 말',r.instead],['함께한 것',r.closer],['내 마음',r.feel]].forEach(function(p){
+        if (!p[1]) return; var dt=document.createElement('dt'); dt.textContent=p[0]; var dd=document.createElement('dd'); dd.textContent=p[1]; dl.appendChild(dt); dl.appendChild(dd);
+      });
+      c.appendChild(dl); box.appendChild(c);
+    });
+  }
+
+  function recText(r){
+    var t = ['['+r.date+']'];
+    if (r.clash && r.clash.length) t.push('- 부딪친 일: '+r.clash.join(', '));
+    if (r.said) t.push('- 그때 한 말: "'+r.said+'"');
+    if (r.paused) t.push('- 한 번 멈췄나요: '+r.paused);
+    if (r.instead) t.push('- 대신 한 말 / 하고 싶은 말: "'+r.instead+'"');
+    if (r.closer) t.push('- 그 뒤에 아이와 함께한 것: '+r.closer);
+    if (r.feel) t.push('- 내 마음: '+r.feel);
+    return t.join('\n');
+  }
+
+  var days = 7;
+  function inRange(){
+    var list = sorted();
+    if (!days) return list;
+    var from = new Date(); from.setDate(from.getDate()-days+1);
+    var f = new Date(from.getTime()-from.getTimezoneOffset()*60000).toISOString().slice(0,10);
+    return list.filter(function(r){ return r.date >= f; });
+  }
+  function renderWeek(){
+    var list = inRange();
+    $('wCount').textContent = '기록 '+list.length+'개';
+    if (!list.length){ $('wPrompt').textContent = '고른 기간에 기록이 없어요. 기록하기 탭에서 먼저 적어 주세요.'; return; }
+    var t = [];
+    t.push('저는 경계선 지능이나 ADHD가 있는 초등 자녀를 키우는 부모예요. 아래는 제가 직접 적은 아이와 부딪친 날 기록이에요.');
+    t.push('');
+    list.slice().reverse().forEach(function(r){ t.push(recText(r)); t.push(''); });
+    t.push('저는 화가 난 순간 한 번 멈추고, 후회할 말 대신 해야 할 말을 하고, 부딪친 날에도 아이와 다시 가까워지고 싶어요.');
+    t.push('이 기록에서 반복되는 상황과, 제가 대신 할 수 있는 말을 같이 정리해 주세요.');
+    t.push('모르는 건 모른다고, 내 답에 없는 사실은 지어내지 말고, 오늘 해 볼 것 하나만 알려 주세요');
+    $('wPrompt').textContent = t.join('\n');
+  }
+  [].forEach.call($('range').children, function(b){
+    b.onclick = function(){ days = +b.dataset.days; [].forEach.call($('range').children,function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); }); renderWeek(); };
+  });
+
+  function copy(txt, msgEl, okMsg){
+    var done = function(){ msgEl.textContent = okMsg; };
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=txt; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch(e){ msgEl.textContent='글을 길게 눌러 직접 복사해 주세요'; }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
+  }
+  var wCopy = function(){ copy($('wPrompt').textContent, $('wMsg'), '복사했어요. 내 AI 창에 붙여 넣어 주세요'); };
+  $('wCopy').onclick = wCopy;
+  $('wGpt').addEventListener('click', wCopy);
+  $('wClaude').addEventListener('click', wCopy);
+  $('allCopy').onclick = function(){
+    var list = sorted();
+    if (!list.length){ $('allMsg').textContent='아직 기록이 없어요'; return; }
+    copy(list.slice().reverse().map(recText).join('\n\n'), $('allMsg'), '전체 기록을 복사했어요');
+  };
+  $('wipe').onclick = function(){
+    if (confirm('이 휴대폰에 저장된 기록을 모두 지울까요? 되돌릴 수 없어요.')){ store([]); try{ localStorage.removeItem(KEY); }catch(e){} renderList(); renderWeek(); }
+  };
+
+  [].forEach.call(document.querySelectorAll('.tabs button'), function(t){
+    t.onclick = function(){
+      [].forEach.call(document.querySelectorAll('.tabs button'), function(x){ x.setAttribute('aria-selected', x===t?'true':'false'); });
+      [].forEach.call(document.querySelectorAll('.pane'), function(p){ p.classList.toggle('on', p.id===t.dataset.pane); });
+      if (t.dataset.pane==='p-list') renderList();
+      if (t.dataset.pane==='p-week') renderWeek();
+      window.scrollTo(0,0);
+    };
+  });
+
+  renderList(); renderWeek();
+})();
+</script>
+</body>
+</html>
