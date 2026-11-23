@@ -205,6 +205,8 @@
   .tile:nth-child(even) .sub{left:auto;right:12px}
   .tile .ico{position:absolute;bottom:14px;right:16px;font-size:44px;font-weight:800;color:rgba(0,0,0,.08)}
   .tile:nth-child(even) .ico{right:auto;left:16px}
+  .tile .pic{position:absolute;bottom:10px;right:14px;width:76px;height:76px}
+  .tile:nth-child(even) .pic{right:auto;left:14px}
   .tile.wide{grid-column:span 2;height:120px;background:#FFF7DA}
 
   /* 12. 추천 */
@@ -274,14 +276,14 @@
   <div class="head">
     <span class="chip">기수마다 10명</span>
     <div class="maker"><i></i>엄마 3분 숨 고르기</div>
-    <h1>화가 난 순간, 엄마가 먼저 숨을 골라요. 엄마 3분 숨 고르기</h1>
+    <h1>소리 지르고 혼낸 날, 엄마가 먼저 숨을 골라요. 엄마 3분 숨 고르기</h1>
     <div class="status">정해진 날짜에 모집을 마감해요</div>
     <div class="summary">
       <div class="t">한눈에 보기</div>
       <ul>
-        <li><em>1</em><div><b>누구를 위한 것</b><span>경계선 지능이나 ADHD가 있는 초등 자녀를 키우는 부모</span></div></li>
+        <li><em>1</em><div><b>누구를 위한 것</b><span>경계선 지능이나 ADHD가 있는 초등 자녀를 키우며, 부딪친 날 후회할 말을 하고 잠 못 드는 부모</span></div></li>
         <li><em>2</em><div><b>함께 가는 곳</b><span>화가 난 순간 한 번 멈추고, 해야 할 말을 하고, 다시 가까워지는 관계</span></div></li>
-        <li><em>3</em><div><b>어떻게</b><span>기수제 3개월 챌린지, 일주일에 한 번 만나요</span></div></li>
+        <li><em>3</em><div><b>어떻게</b><span>기수제 4주 챌린지, 일주일에 한 번 만나요</span></div></li>
       </ul>
     </div>
     <div class="perks">
@@ -302,6 +304,7 @@
         <div class="pill-g">집에선 제가 소리지르거나 막 혼내는 저만 좀 무서워하고</div>
         <div class="pill-g">아이가 산만한거 못앉아있는거 알면서도 팩폭당하니 어질어질</div>
         <div class="pill-g">아이가 너무 외로울꺼같아서 자꾸 눈물만 나네요</div>
+        <div class="pill-g">친한친구 하나 둘쯤은 있으면 좋을텐데 그마저도 힘든것같아요</div>
       </div>
       <p class="src">엄마들이 온라인 커뮤니티에 남긴 말이에요</p>
       <p class="quote">부딪친 날에도,<br><strong>다시 가까워질 수 있게</strong></p>
@@ -395,17 +398,17 @@
 
     <div class="point">
       <div class="num"><i></i><i class="g"></i><b>01</b><i class="g"></i><i></i></div>
-      <h3>혼자가 아니에요<br><strong>기수제 3개월 챌린지</strong></h3>
+      <h3>혼자가 아니에요<br><strong>기수제 4주 챌린지</strong></h3>
       <p>일주일에 한 번<br>같은 기수와 함께 만나요</p>
       <div class="pv week" aria-hidden="true">
-        <span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span class="on"></span><span></span><span></span><span></span>
       </div>
     </div>
 
     <div class="point">
       <div class="num"><i></i><i class="g"></i><b>02</b><i class="g"></i><i></i></div>
       <h3>마지막엔<br><strong>아이와 함께 오프라인 모임</strong></h3>
-      <p>3개월 챌린지를<br>아이와 함께하는 자리로 마무리해요</p>
+      <p>4주 챌린지를<br>아이와 함께하는 자리로 마무리해요</p>
       <div class="pv meet" aria-hidden="true">
         <div class="p"></div><div class="p s"></div><div class="p"></div><div class="p s"></div>
       </div>
@@ -448,10 +451,14 @@
     <div class="dots"><i></i><i></i><i></i><i></i><i></i></div>
     <h2>이런 날<br><strong class="y">함께 숨을 골라요</strong></h2>
     <div class="tiles">
-      <div class="tile"><span class="tag">핸드폰</span><span class="sub">그만하자는 말에 부딪친 날</span><span class="ico">폰</span></div>
-      <div class="tile"><span class="tag">숙제</span><span class="sub">앉아 있기 힘든 아이와</span><span class="ico">책</span></div>
-      <div class="tile"><span class="tag">친구 일</span><span class="sub">학교 가기 싫다는 날</span><span class="ico">친구</span></div>
-      <div class="tile"><span class="tag">잠들기 전</span><span class="sub">후회할 말이 떠오를 때</span><span class="ico">밤</span></div>
+      <div class="tile"><span class="tag">핸드폰</span><span class="sub">그만하자는 말에 부딪친 날</span>
+        <svg class="pic" viewBox="0 0 80 80" role="img" aria-label="빛나는 핸드폰 그림"><rect x="24" y="8" width="32" height="60" rx="6" fill="#fff" stroke="#555" stroke-width="2.5"/><rect x="29" y="16" width="22" height="38" rx="2" fill="#FFC81E"/><circle cx="40" cy="61" r="2.5" fill="#555"/><path d="M60 18l8-5M62 28h9M60 38l8 5" stroke="#FFC81E" stroke-width="3" stroke-linecap="round"/></svg></div>
+      <div class="tile"><span class="tag">숙제</span><span class="sub">앉아 있기 힘든 아이와</span>
+        <svg class="pic" viewBox="0 0 80 80" role="img" aria-label="펼친 공책과 연필 그림"><path d="M8 24q16-6 32 0v42q-16-6-32 0z" fill="#fff" stroke="#555" stroke-width="2.5" stroke-linejoin="round"/><path d="M40 24q16-6 32 0v42q-16-6-32 0z" fill="#fff" stroke="#555" stroke-width="2.5" stroke-linejoin="round"/><path d="M15 36h18M15 45h18M47 36h18" stroke="#ccc" stroke-width="2.5" stroke-linecap="round"/><g transform="rotate(35 58 44)"><rect x="54" y="30" width="8" height="30" fill="#FFC81E" stroke="#555" stroke-width="2"/><path d="M54 60l4 8 4-8z" fill="#555"/></g></svg></div>
+      <div class="tile"><span class="tag">친구 일</span><span class="sub">팀에서 혼자 남았다는 날</span>
+        <svg class="pic" viewBox="0 0 80 80" role="img" aria-label="친구들과 떨어져 혼자 선 아이 그림"><g fill="#ccc"><circle cx="40" cy="26" r="7"/><path d="M30 60v-14q0-10 10-10t10 10v14z"/><circle cx="60" cy="26" r="7"/><path d="M50 60v-14q0-10 10-10t10 10v14z"/></g><g fill="#FFC81E" stroke="#555" stroke-width="2"><circle cx="13" cy="36" r="6"/><path d="M5 66v-12q0-8 8-8t8 8v12z"/></g></svg></div>
+      <div class="tile"><span class="tag">잠들기 전</span><span class="sub">후회할 말이 떠오를 때</span>
+        <svg class="pic" viewBox="0 0 80 80" role="img" aria-label="밤하늘 달과 별 그림"><path d="M52 12a26 26 0 1 0 20 38a22 22 0 1 1-20-38z" fill="#FFC81E" stroke="#555" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 14l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC81E"/><circle cx="30" cy="34" r="2" fill="#555"/></svg></div>
     </div>
   </section>
 
@@ -480,14 +487,15 @@
     <h2>신청 안내</h2>
 
     <div class="opt">
-      <span class="label fill">기수제 3개월 챌린지</span>
+      <span class="label fill">기수제 4주 챌린지</span>
       <span class="hand">부딪친 날에도 다시 가까워지는 관계,<br>같은 기수와 함께 시작해 봐요.</span>
       <div class="circles">
         <div>일주일에<br>한 번<br>만남</div>
         <div>1:1<br>점검</div>
         <div>아이와 함께<br>오프라인<br>모임</div>
       </div>
-      <p class="compose">3개월 챌린지 + 1:1 점검<br>+ 마지막 오프라인 모임</p>
+      <p class="compose">4주 챌린지 + 1:1 점검<br>+ 마지막 오프라인 모임</p>
+      <p class="compose">가격: 5만 원</p>
       <div class="limit">기수마다 10명만 받아요<em>10명</em></div>
       <p class="limit-sub">정해진 날짜에 모집을 마감해요</p>
     </div>
@@ -499,7 +507,7 @@
         <li><b>2</b>입금 계좌는 메시지로 안내해요</li>
         <li><b>3</b>입금을 확인하면 일정을 잡아요</li>
       </ol>
-      <a class="btn mint" href="#신청">신청하기</a>
+      <a class="btn mint" href="https://docs.google.com/forms/d/e/1FAIpQLScGR4d68RWeOHbdwjKrnCXMN8s9Vf-MEAq9QBHAZ3X6lmpF9Q/viewform" target="_blank" rel="noopener">신청하기</a>
     </div>
   </section>
 
@@ -537,7 +545,7 @@
 <div class="fixbar">
   <div class="in">
     <a class="small" href="index.html"><i>?</i>무료 진단</a>
-    <a class="btn mint" href="#신청">신청하기</a>
+    <a class="btn mint" href="https://docs.google.com/forms/d/e/1FAIpQLScGR4d68RWeOHbdwjKrnCXMN8s9Vf-MEAq9QBHAZ3X6lmpF9Q/viewform" target="_blank" rel="noopener">신청하기</a>
   </div>
 </div>
 </body>
